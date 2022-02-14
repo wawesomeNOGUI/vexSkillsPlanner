@@ -116,12 +116,12 @@ function redraw(x, y, newYaw){
   //draw starting picture
   //ctx.fillStyle = "black";
   //ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.translate(canvas.width, 0);
-  ctx.rotate(PI/2);
+  //ctx.translate(canvas.width, 0);
+  //ctx.rotate(PI/2);
   //ctx.drawImage(fieldImg, 0, 0, fieldImg.width, fieldImg.height, 0, 0, canvas.width, canvas.height);
   ctx.drawImage(fieldImg, 0, 0, fieldImg.width, fieldImg.height, 0, 0, canvas.width, canvas.height);
-  ctx.rotate(-PI/2);
-  ctx.translate(-canvas.width, 0);
+  //ctx.rotate(-PI/2);
+  //ctx.translate(-canvas.width, 0);
   //draw axis
   ctx.fillStyle = "white";
   ctx.fillRect(canvas.width/2 - 1, 0, 3, canvas.height);
