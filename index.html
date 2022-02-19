@@ -134,7 +134,7 @@ function redraw(x, y, newYaw){
 
   //robot
   ctx.fillStyle = "red";
-  ctx.fillRect(robotPos.x + canvas.width/2 - 5, robotPos.y + canvas.height/2 - 5, robotDim, robotDim);
+  ctx.fillRect( (robotPos.x - robotDim/2) + canvas.width/2 - 5, (robotPos.y - robotDim/2) + canvas.height/2 - 5, robotDim, robotDim);
 
   //robot yaw vector
   var tempX = Math.cos(rYaw * PI / 180);
