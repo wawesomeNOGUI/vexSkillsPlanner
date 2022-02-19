@@ -22,6 +22,10 @@
   Next X = 0;
   Next Y = 0;
 </p>
+
+<p id="moveDis">
+  Move Distance = 0
+</p>
 <!--
 <p>List o' Instructioins (Right Click To Add Point, Ctrl+Z To Undo, Ctrl+Shift+Z To Redo Once):</p>
 <div id="listOInstructions">
@@ -49,6 +53,7 @@ const fieldImg = new Image();
 
 const robotXYHTML = document.getElementById("robotXY");
 const nextXYHTML = document.getElementById("nextXY");
+const moveDis = document.getElementById("moveDis");
 
 //calculate the angle betweent the robot's yaw vector, and the vector from the robot to the x,y it wants
 //to travel to (Yaw Vector will be made using unit circle with GPS10.yaw() e.g <cos(yaw), sin(yaw)>)
@@ -86,6 +91,12 @@ function calcAngleBetweenYAndT(x, y)
   var yDistance = 1;  //always 1 because uses <cos(yaw), sin(yaw)> unit circle length
   var tDistance = Math.sqrt(travelVector.x * travelVector.x + travelVector.y * travelVector.y);
 
+  var scaledX = travelVector.x * (70.25/(canvas.width/2));
+  var scaledY = -1 * travelVector.y * (70.25/( canvas.height/2));
+  var scaledDistance = Math.sqrt(scaledX * scaledX + scaledY * scaledY);
+  moveDis.innerText = "Move Distance = " + scaledDistance;
+
+
   var a = Math.acos(dotProduct / (yDistance * tDistance));
   a = a * 180 / PI; //convert back to degrees
 
@@ -114,14 +125,8 @@ function clampTo360(g) {
 
 function redraw(x, y, newYaw){
   //draw starting picture
-  //ctx.fillStyle = "black";
-  //ctx.fillRect(0, 0, canvas.width, canvas.height);
-  //ctx.translate(canvas.width, 0);
-  //ctx.rotate(PI/2);
-  //ctx.drawImage(fieldImg, 0, 0, fieldImg.width, fieldImg.height, 0, 0, canvas.width, canvas.height);
   ctx.drawImage(fieldImg, 0, 0, fieldImg.width, fieldImg.height, 0, 0, canvas.width, canvas.height);
-  //ctx.rotate(-PI/2);
-  //ctx.translate(-canvas.width, 0);
+
   //draw axis
   ctx.fillStyle = "white";
   ctx.fillRect(canvas.width/2 - 1, 0, 3, canvas.height);
@@ -175,12 +180,14 @@ canvas.addEventListener('mousedown', function(e){
   var mX = e.x - rect.left - canvas.width/2;
   var mY = e.y - rect.top - canvas.height/2;
   //console.log(mX + ", " + mY);
-  nextXYHTML.innerText = "Next X = " + mX * (70.25/(canvas.width/2)) + " Next Y = " + mY * (70.25/( canvas.height/2));
+  var scaledX = mX * (70.25/(canvas.width/2));
+  var scaledY = -1 * mY * (70.25/( canvas.height/2));
+  nextXYHTML.innerText = "Next X = " + scaledX + " Next Y = " + scaledY;
 
-  distanceFromRobotX = (e.x - rect.left) - (robotPos.x + canvas.width/2 + robotDim/2);
-  distanceFromRobotY = (e.y - rect.top) - (robotPos.y + canvas.height/2 - robotDim/2);
+  distanceFromRobotX = (e.x - rect.left - canvas.width/2) - (robotPos.x - robotDim/2);
+  distanceFromRobotY = (e.y - rect.top - canvas.height/2) - (robotPos.y + robotDim/2);
 
-  if(Math.abs( distanceFromRobotX ) < robotDim * 1 && Math.abs( distanceFromRobotY ) < robotDim * 1 && !movingRobot){
+  if(Math.abs( distanceFromRobotX ) < robotDim * 9/10 && Math.abs( distanceFromRobotY ) < robotDim * 9/10 && !movingRobot){
     movingRobot = true;
     redraw();
   }else{
