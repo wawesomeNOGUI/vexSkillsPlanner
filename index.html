@@ -204,7 +204,7 @@ canvas.addEventListener('mousemove', function(e){
 
     //vex field 140.5 x 140.5 in
     //140.5 / 2 = 70.25
-    robotXYHTML.innerText = "Robot X = " + robotPos.x * (70.25/(canvas.width/2)) + " Robot Y = " + robotPos.y * (70.25/( canvas.height/2));
+    robotXYHTML.innerText = "Robot X = " + robotPos.x * (70.25/(canvas.width/2)) + " Robot Y = " + -1 * robotPos.y * (70.25/( canvas.height/2));
 
     redraw();
   }
